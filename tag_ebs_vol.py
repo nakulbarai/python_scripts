@@ -1,6 +1,6 @@
 import boto3
 client = boto3.client('ec2')
-custom_filter = [{'Name': 'tag:Name', 'Values': ['trinityprovendpoint-production-test-*' ]}]
+custom_filter = [{'Name': 'tag:Name', 'Values': ['tag-name-*' ]}]
 response  = client.describe_instances(Filters=custom_filter)
 instancelist = []
 for reservation in (response["Reservations"]):
