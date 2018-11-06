@@ -1,6 +1,6 @@
 import boto3
 client = boto3.client('ec2')
-custom_filter = [{'Name': 'tag:Name', 'Values': ['tag-name-*' ]}]
+custom_filter = [{'Name': 'tag:Name', 'Values': ['*nakul*' ]}]
 response  = client.describe_instances(Filters=custom_filter)
 instancelist = []
 for reservation in (response["Reservations"]):
@@ -13,7 +13,7 @@ print (eid)
 ec2 = boto3.resource('ec2')
 index=0
 while index <len (eid):
-    deviceid = []
+    deviceid= []
     tagid = []
     instance = ec2.Instance(eid[index])
     vol = instance.volumes.all()
@@ -32,23 +32,22 @@ while index <len (eid):
                 'Values': [ eid[index]] } ])
     for Tags in (response["Tags"]):
             tagid.append(Tags["Value"])
+    print (deviceid)
     tag_name= tagid[0]
     count = 0
     while count <len(vid):
             ec2 = boto3.resource('ec2')
             volume = ec2.Volume(vid [count])
-            number = 0
-            while number <len(deviceid):
-                tag = volume.create_tags(
+            tag = volume.create_tags(
                     Tags = [
 
                         {
                          'Key': 'Name',
-                         'Value': tag_name + deviceid[number]
+                         'Value': tag_name + deviceid[count]
                          }
                          ]
                         )
-                number = number+ 1
+            print(tag)
             count = count +1
     print (tag)
     index = index + 1
